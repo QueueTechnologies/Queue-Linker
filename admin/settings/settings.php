@@ -16,7 +16,7 @@ function queue_settings( $wpsf_settings ) {
         'id' => 'main',
         'title' => __('Main'),
     );
-
+    
     $wpsf_settings['sections'][]  = array(
         'tab_id' => 'main',
         'section_id' => 'general',
@@ -26,7 +26,7 @@ function queue_settings( $wpsf_settings ) {
             array(
                 'id' => 'campaign',
                 'title' => 'Campaign ID',
-                'desc' => 'Please fill with your campaign id.',
+                'desc' => 'Please enter your Queue campaign ID.<br>To find select your campaign > management area > integration section > wordpress.',
                 'placeholder' => 'campaign id.',
                 'type' => 'text',
             ),
@@ -42,7 +42,7 @@ function queue_settings( $wpsf_settings ) {
             array(
                 'id' => 'exit_modal',
                 'title' => 'Exit Modal',
-                'desc' => 'Enable/Disable exit modal.',
+                'desc' => 'Use this to enable or disable the exit popup signup form.<br>You can customize the call to action for your campaign in the setup area >  conversion tools > exit pop',
                 'type' => 'select',
                 'std' => 'enabled',
                 'choices' => array(

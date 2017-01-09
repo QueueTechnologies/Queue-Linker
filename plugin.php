@@ -3,11 +3,11 @@
 
 
       /*
-      Plugin Name: Queue Technologies
+      Plugin Name: Queue
       Plugin URI: https://queueat.com
-      Description: Embed Queue campaigns and use our Widget
+      Description: Queue: Viral Campaigns and Social Promotions
       Version: 1.0
-      Author: Alejandro Torres
+      Author: Queue Technologies
       Author URI: https://queueat.com
       */
 
@@ -38,12 +38,16 @@
           $data = $this->wpsf->get_settings();
 
           $this->campaign = $data['main_general_campaign'];
-          
+
           // widgets
-          require_once 'admin/widget/widgets.php';
+          foreach (glob($this->plugin_path."admin/widget/*.php") as $widget) {
+            require_once $widget;
+          }
+
+          add_action( 'widgets_init', array($this, 'register_queuetech_widgets') );
 
           add_filter( 'clean_url', array($this, 'add_defer'), 11, 1 );
-          
+
           // scripts
           add_action( 'wp_enqueue_scripts', array( $this, 'load_javascript' ) );
           add_action( 'wp_enqueue_scripts', array( $this, 'load_inline_javascript' ) );
@@ -54,7 +58,7 @@
           add_shortcode( 'queue-greetings-bar', array( $this, 'shortcode_greetings_bar' ) );
           add_shortcode( 'queue-community',     array( $this, 'shortcode_community' ) );
 
-          if ( ($data['main_general_exit_modal'] == '' || $data['main_general_exit_modal'] == 'enabled') && 
+          if ( ($data['main_general_exit_modal'] == '' || $data['main_general_exit_modal'] == 'enabled') &&
              ($data['main_general_campaign'] != '')) {
              add_action( 'wp_footer', array($this, 'exit_modal') );
           }
@@ -66,10 +70,10 @@
           }
         }
 
-        public function init_settings() {          
+        public function init_settings() {
           $this->wpsf->add_settings_page( array(
             'page_title'  => __( 'Queue Technologies' ),
-            'menu_title'  => __( 'QueueTech' ),
+            'menu_title'  => __( 'Queue' ),
             'icon_url'    => $this->base_url . 'img/icon.png'
           ));
         }
@@ -147,6 +151,15 @@
 
         function exit_modal() {
           echo $this->shortcode_exit_popup();
+        }
+
+        // Register and load the widget
+        function register_queuetech_widgets() {
+          register_widget( 'QueueTechWidgetCommunity' );
+          register_widget( 'QueueTechWidgetGreetingBar' );
+          register_widget( 'QueueTechWidgetSignupVertical' );
+          register_widget( 'QueueTechWidgetSignupHorizontal' );
+          register_widget( 'QueueTechWidgetSocialProof' );
         }
       }
 
